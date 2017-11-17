@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlite3
 import math
+import config
 
 def scoreQuery(query, db):
     conn = sqlite3.connect(db)
@@ -17,7 +18,7 @@ def score(df):
     return math.sqrt(temp.dot(weights) / weights.sum())
 
 
-db = "GroceryPredict.db"
+db = config.db
 resultsTable = 'test'
 testQuery = "SELECT unit_sales, actual_unit_sales, perishable FROM " + resultsTable + ";"
 print scoreQuery(testQuery, db)

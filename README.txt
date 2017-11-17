@@ -1,6 +1,5 @@
-Note: Before running a python script, check that you've changed the paths to work for your system. Eventually we may want to have separate configuration files that maintain these paths but for now you and I will just have different versions in our files, I guess.
-
 Setup instructions:
+- Change filepaths in
 - Navigate to the desired db folder in the shell (I just use root folder for the project), and create a database: "sqlite3 GroceryPredict.db"
 - Run DBSetup.py
 
@@ -20,3 +19,6 @@ Writes a solution file from a results table that can be submitted to Kaggle.
 
 explore.py
 I don't think I ever finished this, not sure what it was going to do.
+
+config.py
+A config file. After getting this from the repository we will need to edit to our specific paths. It will be kind of a pain that this file will need to differ on our systems, but this should contain all those differences in one file.

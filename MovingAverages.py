@@ -1,11 +1,18 @@
 import pandas as pd
 import sqlite3
 from datetime import timedelta
+import config
+
+trainTable = config.trainTable
+itemsTable = config.itemsTable
+storesTable = config.storesTable
+transactionsTable = config.transactionsTable
+testTable = config.testTable
 
 
 def MovingAverages(train = None, test = None):
 
-    db = 'GroceryPredict.db'
+    db = config.db
     conn = sqlite3.connect(db)
 
     if not isinstance(train, pd.DataFrame):
@@ -38,7 +45,7 @@ def MovingAverages(train = None, test = None):
     del u_dates, u_stores, u_items
 
     print "Obtaining Day-Of-Week Weights"
-    dow = pd.read_sql_query("SELECT date, store_nbr, transactions FROM transactionsInput;", conn)
+    dow = pd.read_sql_query("SELECT date, store_nbr, transactions FROM " + transactionsTable + ";", conn)
     dow['date'] = pd.to_datetime(dow['date'])
     dow['dayOfWeek'] = dow['date'].dt.dayofweek
     dowavgs = dow.groupby(['dayOfWeek', 'store_nbr'])['transactions'].sum()

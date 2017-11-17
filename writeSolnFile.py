@@ -1,7 +1,8 @@
 import sqlite3
 import pandas as pd
-db = "GroceryPredict.db"
-dataPath = 'C:/Users/Colin/Documents/GroceriesPredict/'
+import config
+db = config.db
+dataPath = config.outputPath
 outputName = 'DOWWeightByStore'
 resultsTable = "DOWWeightByStore"
 

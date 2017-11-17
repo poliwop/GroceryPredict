@@ -1,19 +1,20 @@
 import pandas as pd
 import sqlite3
-db = "GroceryPredictNew.db"
-dataPath = 'C:/Users/Colin/Documents/GroceriesPredict/Data/'
+import config
+db = config.db
+dataPath = config.dataPath
 
-traincsvfile = 'train.csv'
-itemscsvfile = 'items.csv'
-storescsvfile = 'stores.csv'
-transactionscsvfile = 'transactions.csv'
-testcsvfile = 'test.csv'
+traincsvfile = config.traincsvfile
+itemscsvfile = config.itemscsvfile
+storescsvfile = config.storescsvfile
+transactionscsvfile = config.transactionscsvfile
+testcsvfile = config.testcsvfile
 
-trainTable = 'trainInput'
-itemsTable = 'itemsInput'
-storesTable = 'storesInput'
-transactionsTable = 'transactionsInput'
-testTable = 'testInput'
+trainTable = config.trainTable
+itemsTable = config.itemsTable
+storesTable = config.storesTable
+transactionsTable = config.transactionsTable
+testTable = config.testTable
 
 dtypes = {'id':'int64', 'item_nbr':'int32', 'store_nbr':'int8', 'perishable':'int8', 'class':'int32', 'cluster':'int8',
           'transactions':'int32'}
