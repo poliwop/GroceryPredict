@@ -56,22 +56,22 @@ print "moving csv to db"
 importTable(df, trainTable)
 
 
-# print "loading items csv"
-# df = pd.read_csv(dataPath + itemscsvfile, dtype = dtypes)
-# print "moving csv to db"
-# importTable(df, itemsTable)
-#
-# print "loading stores csv"
-# df = pd.read_csv(dataPath + storescsvfile, dtype=dtypes)
-# print "moving csv to db"
-# importTable(df, storesTable)
-#
-# print "loading transactions csv"
-# df = pd.read_csv(dataPath + transactionscsvfile, dtype = dtypes, parse_dates=['date'])
-# print "moving csv to db"
-# importTable(df, transactionsTable)
-#
-# print "loading test csv"
-# df = pd.read_csv(dataPath + testcsvfile, dtype = dtypes, parse_dates=['date'])
-# print "moving csv to db"
-# importTable(df, testTable)
+print "loading items csv"
+df = pd.read_csv(dataPath + itemscsvfile, dtype = dtypes)
+print "moving csv to db"
+importTable(df, itemsTable)
+
+print "loading stores csv"
+df = pd.read_csv(dataPath + storescsvfile, dtype=dtypes)
+print "moving csv to db"
+importTable(df, storesTable)
+
+print "loading transactions csv"
+df = pd.read_csv(dataPath + transactionscsvfile, dtype = dtypes, parse_dates=['date'])
+print "moving csv to db"
+importTable(df, transactionsTable)
+
+print "loading test csv"
+df = pd.read_csv(dataPath + testcsvfile, dtype = dtypes, parse_dates=['date'])
+print "moving csv to db"
+importTable(df, testTable)
