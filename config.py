@@ -16,4 +16,4 @@ itemsTable = 'itemsInput'
 storesTable = 'storesInput'
 transactionsTable = 'transactionsInput'
 testTable = 'testInput'
-
+pivotTable = 'pivotTable'

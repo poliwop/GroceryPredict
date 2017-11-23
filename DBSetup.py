@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlite3
 import config
+from GroceryUtil import *
 db = config.db
 dataPath = config.dataPath
 
@@ -29,18 +30,6 @@ def dispTop(tableName, cur):
 
     for row in rows:
         print(row)
-
-def exists(tableName, cur):
-    statement = "SELECT name FROM sqlite_master WHERE type='table';"
-    if (tableName,) in cur.execute(statement).fetchall():
-        return True
-    else:
-        return False
-
-def dropTable(tableName, cur):
-    if exists(tableName, cur):
-        print("Dropping " + tableName)
-        cur.execute("DROP TABLE " + tableName)
 
 def importTable(df, tableName):
     dropTable(tableName, cur)
