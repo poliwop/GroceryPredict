@@ -16,6 +16,7 @@ itemsTable = config.itemsTable
 storesTable = config.storesTable
 transactionsTable = config.transactionsTable
 testTable = config.testTable
+smallTrainTable = config.smallTrainTable
 
 dtypes = {'id':'int64', 'item_nbr':'int32', 'store_nbr':'int8', 'perishable':'int8', 'class':'int32', 'cluster':'int8',
           'transactions':'int32'}
@@ -65,3 +66,5 @@ print "loading test csv"
 df = pd.read_csv(dataPath + testcsvfile, dtype = dtypes, parse_dates=['date'])
 print "moving csv to db"
 importTable(df, testTable)
+
+cur.execute("CREATE TABLE " + smallTrainTable + " AS SELECT * FROM " + trainTable + " WHERE date >= '2016-01-01'")

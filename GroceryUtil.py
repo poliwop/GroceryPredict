@@ -5,7 +5,6 @@ def cleanTrainSet(train):
     train.loc[(train.unit_sales<0),'unit_sales'] = 0 # eliminate negatives
     train['unit_sales'] =  train['unit_sales'].apply(pd.np.log1p) #logarithm conversion
     train['date'] = pd.to_datetime(train['date'])
-    train['date'] = train['date'].dt.date
     return train
 
 def imputeTrainSet(train, dateRange = None):

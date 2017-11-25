@@ -8,21 +8,22 @@ import config
 from datetime import timedelta
 
 db = config.db
-trainTable = config.trainTable
+trainTable = config.smallTrainTable
 itemsTable = config.itemsTable
 storesTable = config.storesTable
 transactionsTable = config.transactionsTable
 testTable = config.testTable
 
-resultsTable = 'test'
+resultsTable = 'PCAResults'
 trainQuery = "SELECT date, store_nbr, item_nbr, unit_sales FROM " + trainTable + " " + """  
-                                WHERE date >= '2017-06-01'
+                                WHERE date >= '2017-05-01'
                                 AND date < '2017-08-01';"""
 trainQuery2 = "SELECT date, store_nbr, item_nbr, unit_sales FROM " + trainTable + " LIMIT 5;"
 #trainQuery = "SELECT date, store_nbr, item_nbr, unit_sales FROM " + trainTable + " LIMIT 5;"
+# item 96995
 
-
-testQuery = "SELECT id, date, store_nbr, item_nbr, unit_sales FROM " + trainTable + " WHERE date >= '2017-08-01';"
+testQuery = "SELECT id, date, store_nbr, item_nbr, unit_sales FROM " + trainTable + " " + """
+                                WHERE date >= '2017-08-01';"""
 testQuery2 = "SELECT id, date, store_nbr, item_nbr, unit_sales FROM " + trainTable + " LIMIT 10;"
 #testQuery = "SELECT id, date, store_nbr, item_nbr FROM " + trainTable + " LIMIT 5;"
 
@@ -38,8 +39,8 @@ testDF = pd.read_sql_query(testQuery, conn)
 test = testDF.drop(['unit_sales'], axis=1, inplace=False)
 
 
-df = MovingAverages(trainDF, test)
-#df = getPCA(trainDF)
+#df = MovingAverages(trainDF, test)
+df = getPCA(trainDF, test)
 
 items = pd.read_sql_query("SELECT item_nbr, perishable FROM " + itemsTable + ";", conn)
 testDF = pd.merge(testDF, items, how='left', on='item_nbr')
