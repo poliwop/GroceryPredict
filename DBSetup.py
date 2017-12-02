@@ -1,6 +1,7 @@
 import pandas as pd
 import sqlite3
 import config
+from GroceryUtil import *
 db = config.db
 dataPath = config.dataPath
 
@@ -15,6 +16,7 @@ itemsTable = config.itemsTable
 storesTable = config.storesTable
 transactionsTable = config.transactionsTable
 testTable = config.testTable
+smallTrainTable = config.smallTrainTable
 
 dtypes = {'id':'int64', 'item_nbr':'int32', 'store_nbr':'int8', 'perishable':'int8', 'class':'int32', 'cluster':'int8',
           'transactions':'int32'}
@@ -29,18 +31,6 @@ def dispTop(tableName, cur):
 
     for row in rows:
         print(row)
-
-def exists(tableName, cur):
-    statement = "SELECT name FROM sqlite_master WHERE type='table';"
-    if (tableName,) in cur.execute(statement).fetchall():
-        return True
-    else:
-        return False
-
-def dropTable(tableName, cur):
-    if exists(tableName, cur):
-        print("Dropping " + tableName)
-        cur.execute("DROP TABLE " + tableName)
 
 def importTable(df, tableName):
     dropTable(tableName, cur)
@@ -76,3 +66,5 @@ print "loading test csv"
 df = pd.read_csv(dataPath + testcsvfile, dtype = dtypes, parse_dates=['date'])
 print "moving csv to db"
 importTable(df, testTable)
+
+cur.execute("CREATE TABLE " + smallTrainTable + " AS SELECT * FROM " + trainTable + " WHERE date >= '2016-01-01'")
