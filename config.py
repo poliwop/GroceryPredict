@@ -1,7 +1,7 @@
 # outputPath is where you will write output files
-outputPath = 'C:/Users/Colin/Documents/GroceriesPredict/'
+outputPath = ''
 # dataPath is where you will have the data csvs provided by Kaggle
-dataPath = 'C:/Users/Colin/Documents/GroceriesPredict/Data/'
+dataPath = 'Data/'
 
 traincsvfile = 'train.csv'
 itemscsvfile = 'items.csv'
