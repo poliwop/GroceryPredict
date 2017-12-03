@@ -7,13 +7,17 @@ def cleanTrainSet(train):
     train['date'] = pd.to_datetime(train['date'])
     return train
 
-def imputeTrainSet(train, dateRange = None):
+def imputeTrainSet(train, dateList = None, itemList = None):
     print "creating records"
     u_dates = train.date.unique()
-    if dateRange is not None:
-        u_dates = dateRange
     u_stores = train.store_nbr.unique()
     u_items = train.item_nbr.unique()
+    if dateList is not None:
+        u_dates = dateList
+    if itemList is not None:
+        u_items = itemList
+
+
     train.set_index(["date", "store_nbr", "item_nbr"], inplace=True)
     train = train.reindex(
         pd.MultiIndex.from_product(
