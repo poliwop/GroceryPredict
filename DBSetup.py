@@ -33,18 +33,26 @@ def dispTop(tableName, cur):
         print(row)
 
 def importTable(df, tableName):
-    dropTable(tableName, cur)
-    df.to_sql(tableName, conn, if_exists='append', index=False)
+    df.to_sql(tableName, conn, if_exists='append', index=False, chunksize =10000)
     dispTop(tableName, cur)
 
 
+#print "initializing tables"
+#tablenames = [trainTable, itemsTable, storesTable, transactionsTable, testTable, smallTrainTable]
+#for table in tablenames:
+#    dropTable(trainTable, cur)
 
-print "loading training csv"
+#do 25 million at a time
+#print "loading training csv"
 #df = pd.read_csv(dataPath + traincsvfile, usecols=[1, 2, 3, 4], dtype=dtypes, parse_dates=['date'],
  #                    skiprows=range(1, 101688779))
-df = pd.read_csv(dataPath + traincsvfile, dtype=dtypes, parse_dates=['date'])
-print "moving csv to db"
-importTable(df, trainTable)
+#for k in range(126):
+#    df = pd.read_csv(dataPath + traincsvfile, dtype=dtypes, header = None,
+#                     names=['id', 'date', 'store_nbr', 'item_nbr', 'unit_sales', 'onpromotion'],
+#                     parse_dates = ['date'],
+#                     skiprows = k*1000000+1, nrows = 1000000)
+#    print "moving chunk %d of csv to db" % k
+#    importTable(df, trainTable)
 
 
 print "loading items csv"
