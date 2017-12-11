@@ -19,6 +19,11 @@ def imputeTrainSet(train, dateList = None, itemList = None):
 
 
     train.set_index(["date", "store_nbr", "item_nbr"], inplace=True)
+
+    print train
+    print u_stores
+    print u_dates
+    print u_items
     train = train.reindex(
         pd.MultiIndex.from_product(
             (u_dates, u_stores, u_items),
@@ -27,9 +32,15 @@ def imputeTrainSet(train, dateList = None, itemList = None):
     )
     del u_dates, u_stores, u_items
 
+    return train
+
+def fillNans(train):
+
     print "Filling NaNs"
     # Fill NaNs
     train.loc[:, "unit_sales"].fillna(0, inplace=True)
+    if 'id' in train.columns:
+        train.loc[:, "id"].fillna(0, inplace=True)
     train.reset_index(inplace=True) # reset index and restoring unique columns
 
     return train

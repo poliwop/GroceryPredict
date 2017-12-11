@@ -34,18 +34,31 @@ def getAllItems():
     itemsDF = pd.read_sql_query(q, conn)
     return itemsDF['item_nbr'].tolist()
 
+def getRowI(row, trainPivot):
+    return trainPivot.loc(row['store_nbr'], row['item_nbr'])
+
+#def getSales(row, lastI)
+#    return row[]
+
 
 def getPCAVars(transformMat, df, trainPivot):
     PCAVarList = [None]*len(df)
     numRows = len(df)
+    lastDateSeries = df["date"].apply(lambda x: x - dt.timedelta(days = predictionLag))
+    #rows = df.apply(getRowI, args = trainPivot, axis=1)
+    lastI = lastDateSeries.apply(lambda x: trainPivot.columns.get_loc(x))
+    #rows["lastI"] = lastI
+
+
     for input in df.iterrows():
-        lastDate = input[1]["date"] - dt.timedelta(days = predictionLag)
-        lastI = trainPivot.columns.get_loc(lastDate)
+        #lastDate = input[1]["date"] - dt.timedelta(days = predictionLag)
+        #lastI = trainPivot.columns.get_loc(lastDate)
         row = trainPivot.loc[(input[1]["store_nbr"], input[1]["item_nbr"])]
-        sales = row[(lastI - windowLength + 1):(lastI + 1)]
+        i = input[0]
+        sales = row[(lastI[i] - windowLength + 1):(lastI[i] + 1)]
         salesList = sales.tolist()
         PCAVars = np.matmul(transformMat, np.transpose(salesList))
-        PCAVarList[input[0]] = PCAVars
+        PCAVarList[i] = PCAVars
 
         if input[0] % 10000 == 0:
             print str(input[0]) + " out of " + str(numRows) + " done"
@@ -54,10 +67,14 @@ def getPCAVars(transformMat, df, trainPivot):
 
 
 def getPCA(train, test):
-    train = cleanTrainSet(train)
-    train = imputeTrainSet(train, dateList = pd.date_range('2017-05-01', '2017-07-31'),
-                                  itemList = getAllItems())
-    test['date'] = pd.to_datetime(test['date'])
+    #train = cleanTrainSet(train)
+    #train = imputeTrainSet(train, dateList = pd.date_range('2017-05-01', '2017-07-31'),
+    #                              itemList = getAllItems())
+    #train = fillNans(train)
+    #test = imputeTrainSet(test, dateList=pd.date_range('2017-08-01', '2017-08-15'),
+    #                            itemList=getAllItems())
+    #test['date'] = pd.to_datetime(test['date'])
+    #test.reset_index(inplace=True)
     print "pivoting"
     trainPivot = train.pivot_table(index = ['store_nbr', 'item_nbr'], columns='date', values = 'unit_sales')
 
@@ -119,6 +136,5 @@ def getPCA(train, test):
     regr = linear_model.LinearRegression()
     regr.fit(np.asarray(trainVars), trainTargets)
     logresults = regr.predict(np.asarray(testVars))
-    results = pd.DataFrame(np.expm1(logresults), columns = ["unit_sales"])
-    results["id"] = test["id"]
-    return results
+    test["unit_sales"] = np.expm1(logresults)
+    return test
